@@ -1,5 +1,63 @@
 <html>
+  <head>
+  </head>
+<script type="text/javascript">
+  function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+    console.log('statusChangeCallback');
+    console.log(response);                   // The current login status of the person.
+    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+      testAPI();  
+    } else {                                 // Not logged into your webpage or we are unable to tell.
+      document.getElementById('phState').innerHTML = 'Please log ' +
+        'into this webpage.';
+    }
+  }
+    function checkLoginState() {               // Called when a person is finished with the Login Button.
+    FB.getLoginStatus(function(response) {   // See the onlogin handler
+      statusChangeCallback(response);
+    });
+  }
+  
+    window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{app-id}',
+      cookie     : true,                     // Enable cookies to allow the server to access the session.
+      xfbml      : true,                     // Parse social plugins on this webpage.
+      version    : '{api-version}'           // Use this Graph API version for this call.
+    });
+      
+        function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('haK').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+  
+  FB.login(function(response) {
+	  // handle the response
+	   if (response.status === 'connected') {
+    // Logged into your webpage and Facebook.
+    alert("로그인 성공하셨어요.");
+  	} else {
+    // The person is not logged into your webpage or we are unable to tell.
+  		alert("로그인 실패하셨어요.");
+  	}
+}, {scope: 'public_profile,email'});
+  
+  FB.logout(function(response) {
+	   // Person is now logged out
+	});
+      
+      
+ </script>
   <body>
-  HELLOW WEB
+   
+                                  <div id="fb-root"></div>
+                                  <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+                                  
+                                  <div id="haK"></div>
+                                  <div id="phState"></div>
   </body>
 </html>
